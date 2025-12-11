@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Interest Calculator</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+       
+       body {
+           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           min-height: 100vh;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           padding: 20px;
+       }
+       
+       .container {
+           background: white;
+           border-radius: 20px;
+           padding: 40px;
+           box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+           max-width: 500px;
+           width: 100%;
+       }
+       
+       h1 {
+           color: #333;
+           margin-bottom: 10px;
+           font-size: 28px;
+       }
+       
+       .subtitle {
+           color: #666;
+           margin-bottom: 30px;
+           font-size: 14px;
+       }
+       
+       .input-group {
+           margin-bottom: 25px;
+       }
+       
+       label {
+           display: block;
+           color: #555;
+           font-weight: 600;
+           margin-bottom: 8px;
+           font-size: 14px;
+       }
+       
+       .input-wrapper {
+           position: relative;
+       }
+       
+       input {
+           width: 100%;
+           padding: 15px;
+           font-size: 18px;
+           border: 2px solid #e0e0e0;
+           border-radius: 10px;
+           transition: border-color 0.3s;
+       }
+       
+       input:focus {
+           outline: none;
+           border-color: #667eea;
+       }
+       
+       .percent-sign {
+           position: absolute;
+           right: 15px;
+           top: 50%;
+           transform: translateY(-50%);
+           color: #999;
+           font-size: 18px;
+       }
+       
+       .result-box {
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           color: white;
+           padding: 30px;
+           border-radius: 15px;
+           text-align: center;
+           margin-top: 30px;
+       }
+       
+       .result-label {
+           font-size: 14px;
+           opacity: 0.9;
+           margin-bottom: 10px;
+       }
+       
+       .result-value {
+           font-size: 48px;
+           font-weight: bold;
+           margin-bottom: 5px;
+       }
+       
+       .result-detail {
+           font-size: 12px;
+           opacity: 0.8;
+           margin-top: 15px;
+       }
+       
+       .info {
+           background: #f5f5f5;
+           padding: 15px;
+           border-radius: 10px;
+           margin-top: 20px;
+           font-size: 13px;
+           color: #666;
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <h1>Interest Calculator</h1>
+       <p class="subtitle">Convert daily interest to annualized rate</p>
+       
+       <div class="input-group">
+           <label for="dailyRate">Daily Interest Rate</label>
+           <div class="input-wrapper">
+               <input
+                   type="number"
+                   id="dailyRate"
+                   placeholder="0.05"
+                   step="0.001"
+                   value="0.05">
+               <span class="percent-sign">%</span>
+           </div>
+       </div>
+       
+       <div class="result-box">
+           <div class="result-label">Annualized Interest Rate</div>
+           <div class="result-value" id="annualizedRate">19.97%</div>
+           <div class="result-detail">Based on daily compounding over 365 days</div>
+       </div>
+       
+       <div class="info">
+           <strong>Formula:</strong> (1 + daily rate)³⁶⁵ - 1<br>
+           This accounts for compound interest where returns build on previous returns.
+       </div>
+   </div>
+   
+   <script>
+       const dailyInput = document.getElementById('dailyRate');
+       const resultDisplay = document.getElementById('annualizedRate');
+       
+       function calculateAnnualized() {
+           const dailyRate = parseFloat(dailyInput.value) || 0;
+           const dailyDecimal = dailyRate / 100;
+           const annualized = (Math.pow(1 + dailyDecimal, 365) - 1) * 100;
+           
+           resultDisplay.textContent = annualized.toFixed(2) + '%';
+       }
+       
+       dailyInput.addEventListener('input', calculateAnnualized);
+       
+       // Calculate on page load
+       calculateAnnualized();
+   </script>
+</body>
+</html>
