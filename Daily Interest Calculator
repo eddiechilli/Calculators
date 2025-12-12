@@ -3,7 +3,7 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Interest Calculator</title>
+   <title>Daily to Annual Interest Calculator</title>
    <style>
        * {
            margin: 0;
