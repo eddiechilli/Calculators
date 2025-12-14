@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Mesh Sphere Audio Visualizer</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+        #audioInput { position: absolute; top: 10px; left: 10px; z-index: 1; }
+    </style>
+</head>
+<body>
+    <input type="file" id="audioInput" accept="audio/*">
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script>
+        // Three.js setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Sphere
+        const radius = 5;
+        const geometry = new THREE.SphereGeometry(radius, 64, 64);
+        const material = new THREE.MeshPhongMaterial({ color: 0x00ff00, shininess: 100 });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // Light
+        const light = new THREE.PointLight(0xffffff, 1, 100);
+        light.position.set(10, 10, 10);
+        scene.add(light);
+
+        // Ambient light
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        camera.position.z = 10;
+
+        // Audio setup
+        let audioCtx;
+        let audio;
+        let source;
+        let analyser;
+        let dataArray;
+        let originalPositions;
+
+        const input = document.getElementById('audioInput');
+        input.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            audio = new Audio();
+            audio.src = URL.createObjectURL(file);
+            audio.controls = true;
+            audio.autoplay = true;
+            document.body.appendChild(audio); // Optional: add audio controls to page
+
+            audioCtx = new (window.AudioContext || window
